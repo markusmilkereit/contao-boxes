@@ -72,7 +72,7 @@ class ModuleBoxes extends \Module
 	{
 		if (TL_MODE == 'BE')
 		{
-			$objTemplate = new BackendTemplate('be_wildcard');
+			$objTemplate = new \BackendTemplate('be_wildcard');
 			$objTemplate->wildcard = '### CONTENT BOXES ###';
 			$objTemplate->title = $this->headline;
 			$objTemplate->id = $this->id;
@@ -81,7 +81,7 @@ class ModuleBoxes extends \Module
 			return $objTemplate->parse();
 		}
 
-		$objRows = $this->Database->prepare("SELECT COUNT(*) as itemCount FROM tl_boxen WHERE modul_id=?")
+		$objRows = \Database::getInstance()->prepare("SELECT COUNT(*) as itemCount FROM tl_boxen WHERE modul_id=?")
 			        	->limit(1)
 			        	->execute($this->id);
 
