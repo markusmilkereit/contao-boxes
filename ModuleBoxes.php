@@ -107,13 +107,13 @@ class ModuleBoxes extends \Module
 		while($currPage->pid != '0')
 		{
 			$arrPathIDs[] = $currPage->id;
-			$currPage = $this->Database->prepare('SELECT id,pid FROM tl_page WHERE id=?')->execute($currPage->pid);
+			$currPage = \Database::getInstance()->prepare('SELECT id,pid FROM tl_page WHERE id=?')->execute($currPage->pid);
 		}
 		// forgot to pick up the root page / pid = 0
 		$arrPathIDs[] = $currPage->id;
 		
 		// get boxes
-		$objBoxen = $this->Database->prepare("SELECT * FROM tl_boxen WHERE modul_id=? " . (!BE_USER_LOGGED_IN ? " AND (start='' OR start<".time().") AND (stop='' OR stop>".time().") AND published=1" : "") . " ORDER BY position ASC")
+		$objBoxen = \Database::getInstance()->prepare("SELECT * FROM tl_boxen WHERE modul_id=? " . (!BE_USER_LOGGED_IN ? " AND (start='' OR start<".time().") AND (stop='' OR stop>".time().") AND published=1" : "") . " ORDER BY position ASC")
 					           ->execute($this->id);		
 
 		// Generate all boxes content elements

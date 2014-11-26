@@ -45,7 +45,7 @@ class BoxesContentModule extends \ContentElement
 	 */
 	protected function compile()
 	{
-		$objModule = $this->Database->prepare("SELECT * FROM tl_module WHERE id=?")
+		$objModule = \Database::getInstance()->prepare("SELECT * FROM tl_module WHERE id=?")
 									->limit(1)
 									->execute($this->module);
 
