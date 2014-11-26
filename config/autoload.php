@@ -10,12 +10,23 @@
  * @license http://www.gnu.org/licenses/lgpl-3.0.html LGPL
  */
 
+ 
+/**
+ * Register the namespaces
+ */
+ClassLoader::addNamespaces(array
+(
+	'Magmell\Boxes',
+));
 
 /**
  * Register the classes
  */
 ClassLoader::addClasses(array
 (
+	// Models
+	'Magmell\Boxes\BoxenModel'           => 'system/modules/boxes/models/BoxenModel.php',
+
 	// Modules
 	'Magmell\Boxes\ModuleBoxes'          => 'system/modules/boxes/ModuleBoxes.php',
 	
