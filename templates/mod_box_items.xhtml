@@ -1,0 +1,38 @@
+<div class="mod_contentbox_inside block">
+<?php foreach ($this->items as $item): ?>
+<div class="mod_box_items block<?php echo $item['class']; ?>" <?php if ($item['cssID']): echo $item['cssID']; ?><?php endif; ?><?php if ($item['style']): ?> style="<?php echo $item['style']; ?>" <?php endif; ?>>
+<div class="ce_text">
+<?php if($item['headline']): ?>
+<<?php echo $item['h1']; ?>><?php echo $item['headline']; ?></<?php echo $item['h1']; ?>>
+<?php endif; ?>
+
+<?php if ($item['addImage'] && $item['addBefore']): ?>
+<div class="image_container"<?php if ($item['margin'] || $item['float']): ?> style="<?php echo $item['margin'] . $item['float']; ?>"<?php endif; ?>>
+<?php if ($item['href']) : ?>
+  <a href="<?php echo $item['href']; ?>" title="<?php echo $item['alt']; ?>" <?php if($item['fullsize']): ?> rel="lightbox"<?php endif; ?>>
+<?php endif; ?>
+<img src="<?php echo $item['src']; ?>" alt="<?php echo $item['alt']; ?>"<?php echo $item['imgsize']; ?> /><?php if ($item['href']): ?></a><?php endif; ?>
+<?php if ($item['caption']): ?>
+<div class="caption"><?php echo $item['caption']; ?></div>
+<?php endif; ?>
+</div>
+<?php endif; ?>
+
+<?php echo $item['content']; ?>
+
+<?php if ($item['addImage'] && !$item['addBefore']): ?>
+<div class="image_container"<?php if ($item['margin'] || $item['float']): ?> style="<?php echo $item['margin'] . $item['float']; ?>"<?php endif; ?>>
+<?php if ($item['href']) : ?>
+  <a href="<?php echo $item['href']; ?>" title="<?php echo $item['alt']; ?>" <?php if($item['fullsize']): ?> rel="lightbox"<?php endif; ?>>
+<?php endif; ?>
+<img src="<?php echo $item['src']; ?>" alt="<?php echo $item['alt']; ?>"<?php echo $item['imgsize']; ?> /><?php if ($item['href']): ?></a><?php endif; ?>
+<?php if ($item['caption']): ?>
+<div class="caption"><?php echo $item['caption']; ?></div>
+<?php endif; ?>
+</div>
+<?php endif; ?>
+
+</div>
+</div>
+<?php endforeach; ?>
+</div>
