@@ -57,168 +57,168 @@ namespace Magmell\Boxes;
  */
 class ModuleBoxes extends \Module
 {
-	/**
-	 * Template
-	 * @var string
-	 */
-	protected $strTemplate = 'mod_box';
-	
+    /**
+     * Template
+     * @var string
+     */
+    protected $strTemplate = 'mod_box';
 
-	/**
-	 * Display a wildcard in the back end
-	 * @return string
-	 */
-	public function generate()
-	{
-		if (TL_MODE == 'BE')
-		{
-			$objTemplate = new \BackendTemplate('be_wildcard');
-			$objTemplate->wildcard = '### CONTENT BOXES ###';
-			$objTemplate->title = $this->headline;
-			$objTemplate->id = $this->id;
-			$objTemplate->link = $this->name;
-			$objTemplate->href = 'typolight/main.php?do=modules&amp;act=edit&amp;id=' . $this->id;
-			return $objTemplate->parse();
-		}
 
-		$objRows = \Database::getInstance()->prepare("SELECT COUNT(*) as itemCount FROM tl_boxen WHERE modul_id=?")
-			        	->limit(1)
-			        	->execute($this->id);
+    /**
+     * Display a wildcard in the back end
+     * @return string
+     */
+    public function generate()
+    {
+        if (TL_MODE == 'BE')
+        {
+            $objTemplate = new \BackendTemplate('be_wildcard');
+            $objTemplate->wildcard = '### CONTENT BOXES ###';
+            $objTemplate->title = $this->headline;
+            $objTemplate->id = $this->id;
+            $objTemplate->link = $this->name;
+            $objTemplate->href = 'typolight/main.php?do=modules&amp;act=edit&amp;id=' . $this->id;
+            return $objTemplate->parse();
+        }
 
-		// Avoid an error due an empty result set from $objRows
-		if ($objRows->itemCount > 0)
-		{
-			return parent::generate();
-		}
-		else
-		{
-			return;
-		}
-	}
+        $objRows = \Database::getInstance()->prepare("SELECT COUNT(*) as itemCount FROM tl_boxen WHERE modul_id=?")
+                        ->limit(1)
+                        ->execute($this->id);
 
-	/**
-	 * Generate module
-	 */
-	protected function compile()
-	{
-		// get navigation-path
-		$arrPathIDs = array();
-		$currPage = $GLOBALS['objPage'];
-		while($currPage->pid != '0')
-		{
-			$arrPathIDs[] = $currPage->id;
-			$currPage = \Database::getInstance()->prepare('SELECT id,pid FROM tl_page WHERE id=?')->execute($currPage->pid);
-		}
-		// forgot to pick up the root page / pid = 0
-		$arrPathIDs[] = $currPage->id;
-		
-		// get boxes
-		$objBoxen = \Database::getInstance()->prepare("SELECT * FROM tl_boxen WHERE modul_id=? " . (!BE_USER_LOGGED_IN ? " AND (start='' OR start<".time().") AND (stop='' OR stop>".time().") AND published=1" : "") . " ORDER BY position ASC")
-					           ->execute($this->id);		
+        // Avoid an error due an empty result set from $objRows
+        if ($objRows->itemCount > 0)
+        {
+            return parent::generate();
+        }
+        else
+        {
+            return;
+        }
+    }
 
-		// Generate all boxes content elements
-		$strContent = '';
-		while($objBoxen->next())
-		{
-			$pages = strlen($objBoxen->pages) ? unserialize($objBoxen->pages) : array();
-			$reversePages = $objBoxen->reversePages;
-			$inheritPages = $objBoxen->inheritPages;
-			
-			// only if it passes the choosen pages 
-			// inherit currently overwrites reverse - better solution next time
-			if( (in_array($GLOBALS['objPage']->id, $pages) && !$reversePages) || 
-				(!in_array($GLOBALS['objPage']->id, $pages) && $reversePages) ||
-				($inheritPages && count(array_intersect($arrPathIDs, $pages)) > 0)
-			){
-				$strContent .= $this->getBoxesContentElement($objBoxen);
-			}
-		}
+    /**
+     * Generate module
+     */
+    protected function compile()
+    {
+        // get navigation-path
+        $arrPathIDs = array();
+        $currPage = $GLOBALS['objPage'];
+        while($currPage->pid != '0')
+        {
+            $arrPathIDs[] = $currPage->id;
+            $currPage = \Database::getInstance()->prepare('SELECT id,pid FROM tl_page WHERE id=?')->execute($currPage->pid);
+        }
+        // forgot to pick up the root page / pid = 0
+        $arrPathIDs[] = $currPage->id;
 
-		$this->Template->items = $strContent;
-	}
-	
-	
-	/**
-	 * Generate a boxes content element return it as HTML string
-	 * @param integer
-	 * @return string
-	 */
-	protected function getBoxesContentElement($objElement)
-	{
-		// Show to guests only
-		if ($objElement->guests && FE_USER_LOGGED_IN && !BE_USER_LOGGED_IN && !$objElement->protected)
-		{
-			return '';
-		}
+        // get boxes
+        $objBoxen = \Database::getInstance()->prepare("SELECT * FROM tl_boxen WHERE modul_id=? " . (!BE_USER_LOGGED_IN ? " AND (start='' OR start<".time().") AND (stop='' OR stop>".time().") AND published=1" : "") . " ORDER BY position ASC")
+                               ->execute($this->id);
 
-		// Protected element
-		if ($objElement->protected && !BE_USER_LOGGED_IN)
-		{
-			if (!FE_USER_LOGGED_IN)
-			{
-				return '';
-			}
+        // Generate all boxes content elements
+        $strContent = '';
+        while($objBoxen->next())
+        {
+            $pages = strlen($objBoxen->pages) ? unserialize($objBoxen->pages) : array();
+            $reversePages = $objBoxen->reversePages;
+            $inheritPages = $objBoxen->inheritPages;
 
-			$this->import('FrontendUser', 'User');
-			$groups = deserialize($objElement->groups);
+            // only if it passes the choosen pages
+            // inherit currently overwrites reverse - better solution next time
+            if( (in_array($GLOBALS['objPage']->id, $pages) && !$reversePages) ||
+                (!in_array($GLOBALS['objPage']->id, $pages) && $reversePages) ||
+                ($inheritPages && count(array_intersect($arrPathIDs, $pages)) > 0)
+            ){
+                $strContent .= $this->getBoxesContentElement($objBoxen);
+            }
+        }
 
-			if (!is_array($groups) || count($groups) < 1 || count(array_intersect($groups, $this->User->groups)) < 1)
-			{
-				return '';
-			}
-		}
+        $this->Template->items = $strContent;
+    }
 
-		// Remove spacing in the back end preview
-		if (TL_MODE == 'BE')
-		{
-			$objElement->space = null;
-		}
 
-		$strClass = false;
-		foreach ($GLOBALS['TL_Boxes_CTE'] as $v)
-		{
-			foreach ($v as $kk=>$vv)
-			{
-				if ($kk == $objElement->type)
-				{
-					$strClass = $vv;
-					break 2;
-				}
-			}
-		}		
-		
-		// Return if the class does not exist
-		if (!$this->classFileExists($strClass))
-		{
-			$this->log('Boxes content element class "'.$strClass.'" (boxes content element "'.$objElement->type.'") does not exist', 'ModuleBoxes getBoxesContentElement()', TL_ERROR);
-			return '';
-		}
+    /**
+     * Generate a boxes content element return it as HTML string
+     * @param integer
+     * @return string
+     */
+    protected function getBoxesContentElement($objElement)
+    {
+        // Show to guests only
+        if ($objElement->guests && FE_USER_LOGGED_IN && !BE_USER_LOGGED_IN && !$objElement->protected)
+        {
+            return '';
+        }
 
-		$objElement->typePrefix = 'boxesce_';
+        // Protected element
+        if ($objElement->protected && !BE_USER_LOGGED_IN)
+        {
+            if (!FE_USER_LOGGED_IN)
+            {
+                return '';
+            }
 
-		$objElement->text = $objElement->content;
-		$objElement = new $strClass($objElement);
-		
-		// add boxes_item class
-		$objElement->cssID = array
-		(
-			$objElement->cssID[0],
-			$objElement->cssID[1].' mod_box_items'
-		);
-		
-		$strBuffer = $objElement->generate();
+            $this->import('FrontendUser', 'User');
+            $groups = deserialize($objElement->groups);
 
-		// HOOK: add custom logic
-		if (isset($GLOBALS['TL_HOOKS']['getContentElement']) && is_array($GLOBALS['TL_HOOKS']['getContentElement']))
-		{
-			foreach ($GLOBALS['TL_HOOKS']['getContentElement'] as $callback)
-			{
-				$this->import($callback[0]);
-				$strBuffer = $this->$callback[0]->$callback[1]($objElement, $strBuffer);
-			}
-		}
+            if (!is_array($groups) || count($groups) < 1 || count(array_intersect($groups, $this->User->groups)) < 1)
+            {
+                return '';
+            }
+        }
 
-		return $strBuffer;
-	}	
-	
+        // Remove spacing in the back end preview
+        if (TL_MODE == 'BE')
+        {
+            $objElement->space = null;
+        }
+
+        $strClass = false;
+        foreach ($GLOBALS['TL_Boxes_CTE'] as $v)
+        {
+            foreach ($v as $kk=>$vv)
+            {
+                if ($kk == $objElement->type)
+                {
+                    $strClass = $vv;
+                    break 2;
+                }
+            }
+        }
+
+        // Return if the class does not exist
+        if (!$this->classFileExists($strClass))
+        {
+            $this->log('Boxes content element class "'.$strClass.'" (boxes content element "'.$objElement->type.'") does not exist', 'ModuleBoxes getBoxesContentElement()', TL_ERROR);
+            return '';
+        }
+
+        $objElement->typePrefix = 'boxesce_';
+
+        $objElement->text = $objElement->content;
+        $objElement = new $strClass($objElement);
+
+        // add boxes_item class
+        $objElement->cssID = array
+        (
+            $objElement->cssID[0],
+            $objElement->cssID[1].' mod_box_items'
+        );
+
+        $strBuffer = $objElement->generate();
+
+        // HOOK: add custom logic
+        if (isset($GLOBALS['TL_HOOKS']['getContentElement']) && is_array($GLOBALS['TL_HOOKS']['getContentElement']))
+        {
+            foreach ($GLOBALS['TL_HOOKS']['getContentElement'] as $callback)
+            {
+                $this->import($callback[0]);
+                $strBuffer = $this->$callback[0]->$callback[1]($objElement, $strBuffer);
+            }
+        }
+
+        return $strBuffer;
+    }
+
 }

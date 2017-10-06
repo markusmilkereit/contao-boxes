@@ -27,10 +27,10 @@ namespace Magmell\Boxes;
 class BoxenModel extends \Model
 {
 
-	/**
-	 * Table name
-	 * @var string
-	 */
-	protected static $strTable = 'tl_boxen';
+    /**
+     * Table name
+     * @var string
+     */
+    protected static $strTable = 'tl_boxen';
 
 }

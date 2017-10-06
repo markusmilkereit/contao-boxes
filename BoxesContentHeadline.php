@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /**
  * TYPOlight webCMS
@@ -8,12 +8,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation, either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this program. If not, please visit the Free
  * Software Foundation website at http://www.gnu.org/licenses/.
@@ -22,7 +22,7 @@
  * @copyright  4ward.media 2010
  * @author     Christoph Wiechert <christoph.wiechert@4wardmedia.de>
  * @package    boxes
- * @license    LGPL 
+ * @license    LGPL
  * @filesource
  */
 
@@ -34,10 +34,9 @@ namespace Magmell\Boxes;
 
 class BoxesContentHeadline extends \ContentHeadline
 {
-	/**
-	 * Template
-	 * @var string
-	 */
-	protected $strTemplate = 'boxesce_headline';
+    /**
+     * Template
+     * @var string
+     */
+    protected $strTemplate = 'boxesce_headline';
 }
-
