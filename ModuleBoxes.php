@@ -214,7 +214,7 @@ class ModuleBoxes extends \Module
             foreach ($GLOBALS['TL_HOOKS']['getContentElement'] as $callback)
             {
                 $this->import($callback[0]);
-                $strBuffer = $this->$callback[0]->$callback[1]($objElement, $strBuffer);
+                $strBuffer = $this->{$callback[0]}->{$callback[1]}($objElement, $strBuffer);
             }
         }
 
