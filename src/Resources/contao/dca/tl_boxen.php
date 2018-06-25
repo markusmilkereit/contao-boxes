@@ -37,7 +37,12 @@ $GLOBALS['TL_DCA']['tl_boxen'] = array
     'config' => array
     (
         'dataContainer'               => 'Table',
-        'enableVersioning'            => true
+        'enableVersioning'            => true,
+        'sql' => array(
+            'keys' => array(
+                'id' => 'primary'
+            )
+        )
     ),
 
     // List
@@ -136,6 +141,25 @@ $GLOBALS['TL_DCA']['tl_boxen'] = array
     // Fields
     'fields' => array
     (
+        'id' => array
+        (
+            'sql' => "int(10) unsigned NOT NULL auto_increment"
+        ),
+        "sorting" => array(
+            "sql" => "int(10) unsigned NOT NULL default '0'"
+        ),
+        "pid" => array(
+            "sql" => "int(10) unsigned NOT NULL default '0'"
+        ),
+        "tstamp" => array(
+            "sql" => "int(10) unsigned NOT NULL default '0'"
+        ),
+        "addEnclosure" => array(
+            "sql" => "char(1) NOT NULL default ''"
+        ),
+        "enclosure" => array(
+            "sql" => "varchar(255) NOT NULL default ''"
+        ),
         'type' => array
         (
             'label'                   => &$GLOBALS['TL_LANG']['tl_content']['type'],
@@ -145,14 +169,16 @@ $GLOBALS['TL_DCA']['tl_boxen'] = array
             'inputType'               => 'select',
             'options_callback'        => array('tl_boxen', 'getContentElements'),
             'reference'               => &$GLOBALS['TL_LANG']['Boxes_CTE'],
-            'eval'                    => array('submitOnChange'=>true)
+            'eval'                    => array('submitOnChange'=>true, 'tl_class'=>'w50'),
+            'sql'                     => "varchar(32) NOT NULL default 'text'"
         ),
         'title' => array
         (
             'label'                   => &$GLOBALS['TL_LANG']['tl_boxen']['title'],
             'exclude'                 => true,
             'inputType'               => 'text',
-            'eval'                    => array('maxlength'=>255, 'tl_class'=>'w50')
+            'eval'                    => array('maxlength'=>255, 'tl_class'=>'w50'),
+            'sql'                     => "varchar(255) NOT NULL default ''"
         ),
         'headline' => array
         (
@@ -161,7 +187,8 @@ $GLOBALS['TL_DCA']['tl_boxen'] = array
             'search'                  => true,
             'inputType'               => 'inputUnit',
             'options'                 => array('h1', 'h2', 'h3', 'h4', 'h5', 'h6'),
-            'eval'                    => array('maxlength'=>255)
+            'eval'                    => array('maxlength'=>255, 'tl_class'=>'w50'),
+            'sql'                     => "varchar(255) NOT NULL default ''"
         ),
         'modul_id' => array
         (
@@ -170,14 +197,16 @@ $GLOBALS['TL_DCA']['tl_boxen'] = array
             'inputType'               => 'select',
             'filter'                  => true,
             'options_callback'        => array('tl_boxen', 'getModules'),
-            'eval'                    => array('helpwizard'=>true),
-            'explanation'             => 'modul_id'
+            'eval'                    => array('helpwizard'=>true, 'tl_class'=>'w50'),
+            'explanation'             => 'modul_id',
+            'sql'                     => "int(5) unsigned NOT NULL default '0'"
         ),
         'content' => array
         (
             'label'                   => &$GLOBALS['TL_LANG']['tl_content']['text'],
             'inputType'               => 'textarea',
-            'eval'                    => array('allowHTML'=>true,'preserveTags'=>true,'rte'=>'tinyMCE')
+            'eval'                    => array('allowHTML'=>true,'preserveTags'=>true,'rte'=>'tinyMCE'),
+            'sql'                     => "text NULL"
         ),
         'html' => array
         (
@@ -186,14 +215,16 @@ $GLOBALS['TL_DCA']['tl_boxen'] = array
             'search'                  => true,
             'inputType'               => 'textarea',
             'eval'                    => array('mandatory'=>true, 'allowHtml'=>true, 'class'=>'monospace', 'rte'=>'editArea|html', 'helpwizard'=>true),
-            'explanation'             => 'insertTags'
+            'explanation'             => 'insertTags',
+            'sql'                     => "text NULL"
         ),
         'addImage' => array
         (
             'label'                   => &$GLOBALS['TL_LANG']['tl_content']['addImage'],
             'exclude'                 => true,
             'inputType'               => 'checkbox',
-            'eval'                    => array('submitOnChange'=>true)
+            'eval'                    => array('submitOnChange'=>true),
+            'sql'                     => "char(1) NOT NULL default ''"
         ),
         'singleSRC' => array
         (
@@ -204,14 +235,16 @@ $GLOBALS['TL_DCA']['tl_boxen'] = array
             'save_callback' => array
             (
                 array('tl_content', 'storeFileMetaInformation')
-            )
+            ),
+            'sql'                     => "binary(16) NULL"
         ),
         'multiSRC' => array
         (
             'label'                   => &$GLOBALS['TL_LANG']['tl_content']['multiSRC'],
             'exclude'                 => true,
             'inputType'               => 'fileTree',
-            'eval'                    => array('fieldType'=>'checkbox', 'files'=>true, 'mandatory'=>true)
+            'eval'                    => array('fieldType'=>'checkbox', 'files'=>true, 'mandatory'=>true),
+            'sql'                     => "blob NULL"
         ),
         'perRow' => array
         (
@@ -220,14 +253,16 @@ $GLOBALS['TL_DCA']['tl_boxen'] = array
             'exclude'                 => true,
             'inputType'               => 'select',
             'options'                 => array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12),
-            'eval'                    => array('tl_class'=>'w50')
+            'eval'                    => array('tl_class'=>'w50'),
+            'sql'                     => "smallint(5) unsigned NOT NULL default '0'"
         ),
         'perPage' => array
         (
             'label'                   => &$GLOBALS['TL_LANG']['tl_content']['perPage'],
             'exclude'                 => true,
             'inputType'               => 'text',
-            'eval'                    => array('rgxp'=>'digit', 'tl_class'=>'w50')
+            'eval'                    => array('rgxp'=>'digit', 'tl_class'=>'w50'),
+            'sql'                     => "smallint(5) unsigned NOT NULL default '0'"
         ),
         'sortBy' => array
         (
@@ -236,21 +271,24 @@ $GLOBALS['TL_DCA']['tl_boxen'] = array
             'inputType'               => 'select',
             'options'                 => array('name_asc', 'name_desc', 'date_asc', 'date_desc', 'meta', 'random'),
             'reference'               => &$GLOBALS['TL_LANG']['tl_content'],
-            'eval'                    => array('tl_class'=>'w50')
+            'eval'                    => array('tl_class'=>'w50'),
+            'sql'                     => "varchar(32) NOT NULL default ''"
         ),
         'galleryTpl' => array
         (
             'label'                   => &$GLOBALS['TL_LANG']['tl_content']['galleryTpl'],
             'exclude'                 => true,
             'inputType'               => 'select',
-            'options_callback'        => array('tl_content', 'getGalleryTemplates')
+            'options_callback'        => array('tl_content', 'getGalleryTemplates'),
+            'sql'                     => "varchar(64) NOT NULL default ''"
         ),
         'alt' => array
         (
             'label'                   => &$GLOBALS['TL_LANG']['tl_content']['alt'],
             'exclude'                 => true,
             'inputType'               => 'text',
-            'eval'                    => array('mandatory'=>true, 'rgxp'=>'extnd', 'maxlength'=>255, 'tl_class'=>'long')
+            'eval'                    => array('mandatory'=>true, 'rgxp'=>'extnd', 'maxlength'=>255, 'tl_class'=>'long'),
+            'sql'                     => "varchar(255) NOT NULL default ''"
         ),
         'size' => array
         (
@@ -260,6 +298,7 @@ $GLOBALS['TL_DCA']['tl_boxen'] = array
             'options'                 => $GLOBALS['TL_CROP'],
             'reference'               => &$GLOBALS['TL_LANG']['MSC'],
             'eval'                    => array('rgxp'=>'digit', 'nospace'=>true, 'helpwizard'=>true, 'tl_class'=>'w50'),
+            'sql'                     => "varchar(255) NOT NULL default ''"
         ),
         'caption' => array
         (
@@ -267,7 +306,8 @@ $GLOBALS['TL_DCA']['tl_boxen'] = array
             'exclude'                 => true,
             'search'                  => true,
             'inputType'               => 'text',
-            'eval'                    => array('rgxp'=>'extnd', 'maxlength'=>255, 'tl_class'=>'w50')
+            'eval'                    => array('rgxp'=>'extnd', 'maxlength'=>255, 'tl_class'=>'w50'),
+            'sql'                     => "varchar(255) NOT NULL default ''"
         ),
         'floating' => array
         (
@@ -276,7 +316,8 @@ $GLOBALS['TL_DCA']['tl_boxen'] = array
             'inputType'               => 'radioTable',
             'options'                 => array('above', 'left', 'right', 'below'),
             'eval'                    => array('cols'=>4, 'tl_class'=>'w50'),
-            'reference'               => &$GLOBALS['TL_LANG']['MSC']
+            'reference'               => &$GLOBALS['TL_LANG']['MSC'],
+            'sql'                     => "varchar(32) NOT NULL default ''"
         ),
         'imagemargin' => array
         (
@@ -284,14 +325,16 @@ $GLOBALS['TL_DCA']['tl_boxen'] = array
             'exclude'                 => true,
             'inputType'               => 'trbl',
             'options'                 => array('px', '%', 'em', 'pt', 'pc', 'in', 'cm', 'mm'),
-            'eval'                    => array('includeBlankOption'=>true, 'tl_class'=>'w50')
+            'eval'                    => array('includeBlankOption'=>true, 'tl_class'=>'w50'),
+            'sql'                     => "varchar(255) NOT NULL default ''"
         ),
         'fullsize' => array
         (
             'label'                   => &$GLOBALS['TL_LANG']['tl_content']['fullsize'],
             'exclude'                 => true,
             'inputType'               => 'checkbox',
-            'eval'                    => array('tl_class'=>'w50')
+            'eval'                    => array('tl_class'=>'w50'),
+            'sql'                     => "char(1) NOT NULL default ''"
         ),
         'imageUrl' => array
         (
@@ -300,7 +343,8 @@ $GLOBALS['TL_DCA']['tl_boxen'] = array
             'search'                  => true,
             'inputType'               => 'text',
             'eval'                    => array('rgxp'=>'url', 'maxlength'=>255, 'tl_class'=>'w50 wizard'),
-            'wizard'                  => array(array('tl_content', 'pagePicker'))
+            'wizard'                  => array(array('tl_content', 'pagePicker')),
+            'sql'                     => "varchar(255) NOT NULL default ''"
         ),
         'cteAlias' => array
         (
@@ -312,7 +356,8 @@ $GLOBALS['TL_DCA']['tl_boxen'] = array
             'wizard' => array
             (
                 array('tl_content', 'editAlias')
-            )
+            ),
+            'sql'                     => "int(10) unsigned NOT NULL default '0'"
         ),
         'articleAlias' => array
         (
@@ -324,7 +369,8 @@ $GLOBALS['TL_DCA']['tl_boxen'] = array
             'wizard' => array
             (
                 array('tl_content', 'editArticleAlias')
-            )
+            ),
+            'sql'                     => "int(10) unsigned NOT NULL default '0'"
         ),
         'module' => array
         (
@@ -336,40 +382,46 @@ $GLOBALS['TL_DCA']['tl_boxen'] = array
             'wizard' => array
             (
                 array('tl_content', 'editModule')
-            )
+            ),
+            'sql'                     => "int(10) unsigned NOT NULL default '0'"
         ),
         'reversePages' => array
         (
             'label'                   => &$GLOBALS['TL_LANG']['tl_boxen']['reversePages'],
             'exclude'                 => true,
             'inputType'               => 'checkbox',
-            'eval'                    => array('tl_class'=>'w50')
+            'eval'                    => array('tl_class'=>'w50'),
+            'sql'                     => "char(1) NOT NULL default ''"
         ),
         'inheritPages' => array
         (
             'label'                   => &$GLOBALS['TL_LANG']['tl_boxen']['inheritPages'],
             'exclude'                 => true,
             'inputType'               => 'checkbox',
-            'eval'                    => array('tl_class'=>'w50')
+            'eval'                    => array('tl_class'=>'w50'),
+            'sql'                     => "char(1) NOT NULL default ''"
         ),
         'pages' => array
         (
             'label'                   => &$GLOBALS['TL_LANG']['tl_boxen']['pages'],
             'inputType'               => 'pageTree',
-            'eval'                    => array("multiple"=>true, 'fieldType'=>'checkbox')
+            'eval'                    => array("multiple"=>true, 'fieldType'=>'checkbox'),
+            'sql'                     => "text NULL"
         ),
         'position' => array
         (
             'label'                   => &$GLOBALS['TL_LANG']['tl_boxen']['position'],
             'inputType'               => 'text',
-            'eval'                    => array('tl_class'=>'w50')
+            'eval'                    => array('tl_class'=>'w50'),
+            'sql'                     => "int(4) NOT NULL default '0'"
         ),
         'space' => array
         (
             'label'                   => &$GLOBALS['TL_LANG']['tl_boxen']['space'],
             'exclude'                 => true,
             'inputType'               => 'text',
-            'eval'                    => array('multiple'=>true, 'size'=>2, 'rgxp'=>'digit', 'nospace'=>true)
+            'eval'                    => array('multiple'=>true, 'size'=>2, 'rgxp'=>'digit', 'nospace'=>true),
+            'sql'                     => "varchar(255) NOT NULL default ''"
         ),
         'cssID' => array
         (
@@ -377,28 +429,32 @@ $GLOBALS['TL_DCA']['tl_boxen'] = array
             'exclude'                 => true,
             'search'                  => true,
             'inputType'               => 'text',
-            'eval'                    => array('multiple'=>true, 'size'=>2, 'maxlength'=>240, 'tl_class'=>'w50')
+            'eval'                    => array('multiple'=>true, 'size'=>2, 'maxlength'=>240, 'tl_class'=>'w50'),
+            'sql'                     => "varchar(255) NOT NULL default ''"
         ),
         'published' => array
         (
             'label'                   => &$GLOBALS['TL_LANG']['tl_boxen']['published'],
             'exclude'                 => true,
             'inputType'               => 'checkbox',
-            'eval'                    => array('doNotCopy'=>true)
+            'eval'                    => array('doNotCopy'=>true),
+            'sql'                     => "char(1) NOT NULL default '1'"
         ),
         'start' => array
         (
             'label'                   => &$GLOBALS['TL_LANG']['tl_boxen']['start'],
             'exclude'                 => true,
             'inputType'               => 'text',
-            'eval'                    => array('rgxp'=>'date', 'datepicker'=>$this->getDatePickerString(), 'tl_class'=>'w50 wizard')
+            'eval'                    => array('rgxp'=>'date', 'datepicker'=>$this->getDatePickerString(), 'tl_class'=>'w50 wizard'),
+            'sql'                     => "varchar(10) NOT NULL default ''"
         ),
         'stop' => array
         (
             'label'                   => &$GLOBALS['TL_LANG']['tl_boxen']['stop'],
             'exclude'                 => true,
             'inputType'               => 'text',
-            'eval'                    => array('rgxp'=>'date', 'datepicker'=>$this->getDatePickerString(), 'tl_class'=>'w50 wizard')
+            'eval'                    => array('rgxp'=>'date', 'datepicker'=>$this->getDatePickerString(), 'tl_class'=>'w50 wizard'),
+            'sql'                     => "varchar(10) NOT NULL default ''"
         )
     )
 );
@@ -432,7 +488,6 @@ else
 */
 class tl_boxen extends \Backend
 {
-
     /**
      * Import the back end user object
      */

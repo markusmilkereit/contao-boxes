@@ -29,22 +29,13 @@
 /**
  * Run in a custom namespace, so the class can be replaced
  */
-namespace Magmell\Boxes;
+namespace Magmell\Contao\Boxes;
 
-
-class BoxesContentArticle extends \ContentElement
+class BoxesContentText extends \ContentText
 {
     /**
      * Template
      * @var string
      */
-    protected $strTemplate = 'boxesce_container';
-
-    /**
-     * Generate content element
-     */
-    protected function compile()
-    {
-        $this->Template->content = $this->getArticle($this->articleAlias, false, true);
-    }
+    protected $strTemplate = 'boxesce_text';
 }

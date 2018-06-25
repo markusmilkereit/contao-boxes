@@ -29,8 +29,7 @@
 /**
  * Run in a custom namespace, so the class can be replaced
  */
-namespace Magmell\Boxes;
-
+namespace Magmell\Contao\Boxes;
 
 class BoxesContentGallery extends \ContentGallery
 {

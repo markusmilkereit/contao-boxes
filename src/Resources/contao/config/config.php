@@ -32,14 +32,14 @@ $GLOBALS['TL_Boxes_CTE'] = array
 (
     'texts' => array
     (
-        'headline'  => 'Magmell\Boxes\BoxesContentHeadline',
-        'text'      => 'Magmell\Boxes\BoxesContentText',
+        'headline'  => 'Magmell\Contao\Boxes\BoxesContentHeadline',
+        'text'      => 'Magmell\Contao\Boxes\BoxesContentText',
         // 'html'      => 'BoxesContentHtml', // TODO implement class
     ),
     'images' => array
     (
         // 'image'     => 'BoxesContentImage', // TODO implement class
-        'gallery'   => 'Magmell\Boxes\BoxesContentGallery'
+        'gallery'   => 'Magmell\Contao\Boxes\BoxesContentGallery'
     ),
     'files' => array
     (
@@ -48,9 +48,9 @@ $GLOBALS['TL_Boxes_CTE'] = array
     ),
     'includes' => array
     (
-        'article'   => 'Magmell\Boxes\BoxesContentArticle',
+        'article'   => 'Magmell\Contao\Boxes\BoxesContentArticle',
         // 'alias'     => 'BoxesContentAlias', // TODO implement class
-        'module'    => 'Magmell\Boxes\BoxesContentModule',
+        'module'    => 'Magmell\Contao\Boxes\BoxesContentModule',
     )
 );
 
@@ -73,5 +73,5 @@ array_insert($GLOBALS['BE_MOD']['content'], sizeof($GLOBALS['BE_MOD']['content']
  */
 array_insert($GLOBALS['FE_MOD']['miscellaneous'],0, array
 (
-  'contentbox' => 'Magmell\Boxes\ModuleBoxes'
+  'contentbox' => 'Magmell\Contao\Boxes\ModuleBoxes'
 ));

@@ -1,16 +1,35 @@
 {
-    "name": "markusmilkereit/contao-boxes",
-    "type": "contao-module",
-    "license": "LGPL-3.0+",
-    "require": {
-        "contao/core-bundle": "~3.5 || ~4.1",
-        "contao-community-alliance/composer-plugin": "~2.4 || ~3.0"
+  "name": "markusmilkereit/contao-boxes",
+  "type": "contao-bundle",
+  "authors": [
+    {
+      "name": "Markus Milkereit",
+      "email": "markus.milkereit@magmell.de",
+      "homepage": "http://www.magmell.de",
+      "role": "Developer"
     },
-    "extra": {
-        "contao": {
-            "sources": {
-                "": "system/modules/boxes"
-            }
-        }
+    {
+      "name": "Marko Todic",
+      "email": "marko.todic@magmell.de",
+      "homepage": "http://www.magmell.de",
+      "role": "Developer"
     }
+  ],
+  "extra": {
+    "contao-manager-plugin": "Magmell\\Contao\\Boxes\\ContaoManager\\Plugin"
+  },
+  "autoload": {
+    "psr-4": {
+      "Magmell\\Contao\\Boxes\\": "src/"
+    },
+    "classmap": [
+      "src/Resources/contao/"
+    ],
+    "exclude-from-classmap": [
+      "src/Resources/contao/config/",
+      "src/Resources/contao/dca/",
+      "src/Resources/contao/languages/",
+      "src/Resources/contao/templates/"
+    ]
+  }
 }

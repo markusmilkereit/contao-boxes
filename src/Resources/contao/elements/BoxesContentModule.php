@@ -29,13 +29,38 @@
 /**
  * Run in a custom namespace, so the class can be replaced
  */
-namespace Magmell\Boxes;
+namespace Magmell\Contao\Boxes;
 
-class BoxesContentText extends \ContentText
+class BoxesContentModule extends \ContentElement
 {
     /**
      * Template
      * @var string
      */
-    protected $strTemplate = 'boxesce_text';
+    protected $strTemplate = 'boxesce_container';
+
+    /**
+     * Generate content element
+     */
+    protected function compile()
+    {
+        $objModule = \ModuleModel::findByPK($this->module);
+
+        if ($objModule === null)
+        {
+            return;
+        }
+
+        $strClass = \Module::findClass($objModule->type);
+
+        if (!class_exists($strClass))
+        {
+            return '';
+        }
+
+        $objModule->typePrefix = 'ce_';
+        $objModule = new $strClass($objModule);
+
+        $this->Template->content = $objModule->generate();
+    }
 }

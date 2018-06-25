@@ -10,12 +10,10 @@
  * @license http://www.gnu.org/licenses/lgpl-3.0.html LGPL
  */
 
-
 /**
  * Run in a custom namespace, so the class can be replaced
  */
-namespace Magmell\Boxes;
-
+namespace Magmell\Contao\Boxes;
 
 /**
  * Reads and writes news
@@ -26,11 +24,9 @@ namespace Magmell\Boxes;
  */
 class BoxenModel extends \Model
 {
-
     /**
      * Table name
      * @var string
      */
     protected static $strTable = 'tl_boxen';
-
 }
