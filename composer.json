@@ -1,6 +1,14 @@
 {
   "name": "magmell-agentur/contao-boxes",
   "type": "contao-bundle",
+  "description": "Provides flexible boxes for Contao CMS to manage content on a by-page basis.",
+  "license": "LGPL-3.0-or-later",
+  "keywords": [
+    "contao",
+    "content",
+    "box",
+    "boxes"
+  ],
   "authors": [
     {
       "name": "Markus Milkereit",
@@ -15,6 +23,10 @@
       "role": "Developer"
     }
   ],
+  "require": {
+    "php": "^5.6 || ^7.0",
+    "contao/core-bundle": "^4.4"
+  },
   "extra": {
     "contao-manager-plugin": "Magmell\\Contao\\Boxes\\ContaoManager\\Plugin"
   },
