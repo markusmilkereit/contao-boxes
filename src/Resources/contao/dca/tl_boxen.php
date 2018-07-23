@@ -1,4 +1,4 @@
-<?php if (!defined('TL_ROOT')) die('You can not access this file directly!');
+<?php
 
 /**
  * Extension for: TYPOlight webCMS
@@ -291,15 +291,18 @@ $GLOBALS['TL_DCA']['tl_boxen'] = array
             'sql'                     => "varchar(255) NOT NULL default ''"
         ),
         'size' => array
-        (
-            'label'                   => &$GLOBALS['TL_LANG']['tl_content']['size'],
-            'exclude'                 => true,
-            'inputType'               => 'imageSize',
-            'options'                 => $GLOBALS['TL_CROP'],
-            'reference'               => &$GLOBALS['TL_LANG']['MSC'],
-            'eval'                    => array('rgxp'=>'digit', 'nospace'=>true, 'helpwizard'=>true, 'tl_class'=>'w50'),
-            'sql'                     => "varchar(255) NOT NULL default ''"
-        ),
+		(
+			'label'                   => &$GLOBALS['TL_LANG']['tl_content']['size'],
+			'exclude'                 => true,
+			'inputType'               => 'imageSize',
+			'reference'               => &$GLOBALS['TL_LANG']['MSC'],
+			'eval'                    => array('rgxp'=>'natural', 'includeBlankOption'=>true, 'nospace'=>true, 'helpwizard'=>true, 'tl_class'=>'w50'),
+			'options_callback' => function ()
+			{
+				return System::getContainer()->get('contao.image.image_sizes')->getOptionsForUser(BackendUser::getInstance());
+			},
+			'sql'                     => "varchar(64) NOT NULL default ''"
+		),
         'caption' => array
         (
             'label'                   => &$GLOBALS['TL_LANG']['tl_content']['caption'],
