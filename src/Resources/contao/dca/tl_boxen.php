@@ -232,10 +232,6 @@ $GLOBALS['TL_DCA']['tl_boxen'] = array
             'exclude'                 => true,
             'inputType'               => 'fileTree',
             'eval'                    => array('filesOnly'=>true, 'fieldType'=>'radio', 'mandatory'=>true, 'tl_class'=>'clr'),
-            'save_callback' => array
-            (
-                array('tl_content', 'storeFileMetaInformation')
-            ),
             'sql'                     => "binary(16) NULL"
         ),
         'multiSRC' => array
