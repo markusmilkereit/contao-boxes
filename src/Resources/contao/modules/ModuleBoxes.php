@@ -115,6 +115,8 @@ class ModuleBoxes extends \Module
         // get boxes
         $objBoxen = \Database::getInstance()->prepare("SELECT * FROM tl_boxen WHERE modul_id=? " . (!BE_USER_LOGGED_IN ? " AND (start='' OR start<".time().") AND (stop='' OR stop>".time().") AND published=1" : "") . " ORDER BY position ASC")
                                ->execute($this->id);
+							   
+		
 
         // Generate all boxes content elements
         $strContent = '';
@@ -209,14 +211,14 @@ class ModuleBoxes extends \Module
         $strBuffer = $objElement->generate();
 
         // HOOK: add custom logic
-        if (isset($GLOBALS['TL_HOOKS']['getContentElement']) && is_array($GLOBALS['TL_HOOKS']['getContentElement']))
-        {
-            foreach ($GLOBALS['TL_HOOKS']['getContentElement'] as $callback)
-            {
-                $this->import($callback[0]);
-                $strBuffer = $this->{$callback[0]}->{$callback[1]}($objElement, $strBuffer);
-            }
-        }
+        // if (isset($GLOBALS['TL_HOOKS']['getContentElement']) && is_array($GLOBALS['TL_HOOKS']['getContentElement']))
+        // {
+            // foreach ($GLOBALS['TL_HOOKS']['getContentElement'] as $callback)
+            // {
+                // $this->import($callback[0]);
+                // $strBuffer = $this->{$callback[0]}->{$callback[1]}($objElement, $strBuffer);
+            // }
+        // }
 
         return $strBuffer;
     }
