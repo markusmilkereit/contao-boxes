@@ -135,7 +135,7 @@ $GLOBALS['TL_DCA']['tl_boxen'] = array
     'subpalettes' => array
     (
         'addImage'                    => 'singleSRC,alt,imagemargin,size,imageUrl,caption,floating,fullsize',
-        'addEnclosure'                => 'enclosure'
+        'addEnclosure'                => 'enclosure',
     ),
 
     // Fields
@@ -457,22 +457,6 @@ $GLOBALS['TL_DCA']['tl_boxen'] = array
         )
     )
 );
-
-// Changes for TL 2.8 and later:
-if(VERSION == 2.6 || VERSION == 2.7)
-{
-    $GLOBALS['TL_DCA']['tl_boxen']['fields']['size']['inputType'] = 'text';
-    $GLOBALS['TL_DCA']['tl_boxen']['fields']['size']['eval'] = array('multiple'=>true, 'size'=>2, 'rgxp'=>'digit', 'nospace'=>true, 'tl_class'=>'w50');
-    $GLOBALS['TL_DCA']['tl_boxen']['fields']['size']['save_callback'] = array(array('tl_content', 'limitImageWidth'));
-}
-else
-{
-    $GLOBALS['TL_DCA']['tl_boxen']['fields']['size']['inputType'] = 'imageSize';
-    $GLOBALS['TL_DCA']['tl_boxen']['fields']['size']['options'] = array('proportional', 'crop', 'box');
-    $GLOBALS['TL_DCA']['tl_boxen']['fields']['size']['reference'] = &$GLOBALS['TL_LANG']['MSC'];
-    $GLOBALS['TL_DCA']['tl_boxen']['fields']['size']['eval'] = array('rgxp'=>'digit', 'nospace'=>true, 'tl_class'=>'w50');
-}
-
 
 /**
 * Class tl_boxen
