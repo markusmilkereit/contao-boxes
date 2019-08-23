@@ -29,7 +29,7 @@ abstract class ContaoBoxesRunOnce
 
             if (!$arrSize[0] && !$arrSize[1] && 'proportional' === $arrSize[2])
             {
-                Database::getInstance()->prepare("UPDATE `tl_boxen` SET `size`=? WHERE `id`=?;")->execute(serialize(['', '', ''], $objResult->id));
+                Database::getInstance()->prepare("UPDATE `tl_boxen` SET `size`=? WHERE `id`=?;")->execute(serialize(['', '', '']), $objResult->id);
             }
         }
     }
