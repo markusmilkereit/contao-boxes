@@ -276,7 +276,7 @@ $GLOBALS['TL_DCA']['tl_boxen'] = array
             'label'                   => &$GLOBALS['TL_LANG']['tl_content']['galleryTpl'],
             'exclude'                 => true,
             'inputType'               => 'select',
-            'options_callback'        => array('tl_content', 'getGalleryTemplates'),
+            'options_callback'        => array('tl_boxen', 'getGalleryTemplates'),
             'sql'                     => "varchar(64) NOT NULL default ''"
         ),
         'alt' => array
@@ -630,6 +630,16 @@ class tl_boxen extends \Backend
         $this->Database->prepare("UPDATE tl_boxen SET tstamp=". time() .", published='" . ($blnVisible ? 1 : '') . "' WHERE id=?")->execute($intId);
 
         $this->createNewVersion('tl_boxen', $intId);
+    }
+
+    /**
+     * Return all gallery templates as array
+     *
+     * @return array
+     */
+    public function getGalleryTemplates()
+    {
+        return $this->getTemplateGroup('gallery_');
     }
 
 }
