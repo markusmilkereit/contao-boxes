@@ -459,6 +459,28 @@ $GLOBALS['TL_DCA']['tl_boxen'] = array
     )
 );
 
+if(VERSION == '4.9')
+{
+	// new handling of the multiSRC field, with separate field for sorting
+	$GLOBALS['TL_DCA']['tl_boxen']['fields']['multiSRC'] = array
+	(
+		'label'                   => &$GLOBALS['TL_LANG']['tl_content']['multiSRC'],
+		'exclude'                 => true,
+		'inputType'               => 'fileTree',
+		'eval'                    => array('multiple'=>true, 'fieldType'=>'checkbox', 'orderField'=>'orderSRC', 'files'=>true, 'mandatory'=>true),
+		'sql'                     => "blob NULL",
+		'load_callback' => array
+		(
+			array('tl_content', 'setMultiSrcFlags')
+		)
+	);
+	$GLOBALS['TL_DCA']['tl_boxen']['fields']['orderSRC'] = array
+	(
+		'label'                   => &$GLOBALS['TL_LANG']['MSC']['sortOrder'],
+		'sql'                     => "blob NULL"
+	);
+}
+
 /**
 * Class tl_boxen
 *
